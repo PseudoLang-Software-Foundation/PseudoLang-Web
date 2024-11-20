@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Split, Maximize2, Minimize2 } from "lucide-react";
+import { Play, Split, Maximize2, Minimize2, Info } from "lucide-react";
 import SettingsPanel from "./SettingsPanel";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const WebIDE = () => {
+  const APP_VERSION = "0.2.1";
   const [code, setCode] = useState('DISPLAY("Hello World!")');
   const [output, setOutput] = useState("");
   const [isFullScreen, setIsFullScreen] = useState(true);
@@ -15,6 +21,17 @@ const WebIDE = () => {
     "https://run.pseudo-lang.org"
   );
   const [showSettings, setShowSettings] = useState(false);
+
+  const AppInfo = () => (
+    <div>
+      <h2 className="text-lg font-bold">PseudoLang Web IDE</h2>
+      <p className="mt-2 text-sm">
+        Version: <span className="font-bold">{APP_VERSION}</span>
+        <br />
+        Run Server: <span className="font-bold">{runServerUrl}</span>
+      </p>
+    </div>
+  );
 
   const runCode = async () => {
     setOutput("Running code...");
@@ -75,6 +92,25 @@ const WebIDE = () => {
               onRunServerUrlChange={setRunServerUrl}
             />
           )}
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <div className="fixed top-2 right-2 text-gray-200">
+                <Button
+                  variant={"outline"}
+                  className="w-fit p-2 shadow-lg"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.click();
+                  }}
+                >
+                  <Info />
+                </Button>
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <AppInfo />
+            </PopoverContent>
+          </Popover>
         </div>
 
         {/* Editor and Output */}
