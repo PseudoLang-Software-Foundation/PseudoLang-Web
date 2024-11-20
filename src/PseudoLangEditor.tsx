@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Play, Split, Maximize2, Minimize2 } from "lucide-react";
+import SettingsPanel from "./SettingsPanel";
 
 const WebIDE = () => {
   const [code, setCode] = useState('DISPLAY("Hello World!")');
   const [output, setOutput] = useState("");
-  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(true);
   const [isVerticalLayout, setIsVerticalLayout] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+  const [runServerUrl, setRunServerUrl] = useState(
+    "https://run.pseudo-lang.org"
+  );
+  const [showSettings, setShowSettings] = useState(false);
 
   const runCode = async () => {
     setOutput("Running code...");
     try {
       // Create a new function from the code string
       const code_arg = encodeURIComponent(code);
-      const url = "LANGSERVER_URL" + "?code=" + code_arg;
+      const url =
+        runServerUrl + "/execute?code=" + code_arg + "&debug=" + debugMode;
       let outputBuffer = "";
 
       const response = await fetch(url);
@@ -53,17 +61,20 @@ const WebIDE = () => {
               className={`w-4 h-4 ${isVerticalLayout ? "rotate-90" : ""}`}
             />
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsFullScreen(!isFullScreen)}
-          >
-            {isFullScreen ? (
-              <Minimize2 className="w-4 h-4" />
-            ) : (
-              <Maximize2 className="w-4 h-4" />
-            )}
+
+          <Button onClick={() => setShowSettings(!showSettings)}>
+            Settings
           </Button>
+          {showSettings && (
+            <SettingsPanel
+              debugMode={debugMode}
+              darkMode={darkMode}
+              runServerUrl={runServerUrl}
+              onDebugModeChange={setDebugMode}
+              onDarkModeChange={setDarkMode}
+              onRunServerUrlChange={setRunServerUrl}
+            />
+          )}
         </div>
 
         {/* Editor and Output */}
@@ -77,11 +88,12 @@ const WebIDE = () => {
             <textarea
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="w-full h-full p-4 font-mono text-sm text-white border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full h-full p-4 font-mono text-sm border ${
+                darkMode ? "text-white bg-black" : "text-black bg-white"
+              } rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500`}
               spellCheck="false"
             />
           </div>
-
           {/* Output Console */}
           <div
             className={`${
