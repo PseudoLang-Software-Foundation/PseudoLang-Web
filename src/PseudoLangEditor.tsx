@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { executePseudoLang, initWasm } from "@/services/pseudolang";
+import { executePseudoLang, initWasm, getPseudoLangVersion } from "@/services/pseudolang";
 
 const WebIDE = () => {
   const CODE_STORAGE_KEY = "pseudolang-code";
@@ -38,6 +38,7 @@ const WebIDE = () => {
   const initialSettings = loadSettings();
   const [debugMode, setDebugMode] = useState(initialSettings.debugMode);
   const [darkMode, setDarkMode] = useState(initialSettings.darkMode);
+  const [plVersion, setPlVersion] = useState<string>("");
 
   useEffect(() => {
     const settings = { debugMode, darkMode };
@@ -49,14 +50,18 @@ const WebIDE = () => {
   }, [code]);
 
   useEffect(() => {
-    initWasm().catch(console.error);
+    initWasm()
+      .then(() => getPseudoLangVersion())
+      .then(version => setPlVersion(version))
+      .catch(console.error);
   }, []);
 
   const AppInfo = () => (
     <div className={darkMode ? "text-gray-100" : "text-gray-900"}>
       <h2 className="text-lg font-bold">PseudoLang Web IDE</h2>
-      <p className="mt-2 text-sm">
-        Version: <span className="font-bold">{APP_VERSION}</span>
+      <p className="mt-2 text-sm space-y-1">
+        <div>Web Version: <span className="font-bold">{APP_VERSION}</span></div>
+        <div>PseudoLang Version: <span className="font-bold">{plVersion}</span></div>
       </p>
     </div>
   );

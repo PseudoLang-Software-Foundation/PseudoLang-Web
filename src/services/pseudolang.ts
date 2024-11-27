@@ -1,4 +1,4 @@
-import init, { run_pseudolang } from '../assets/fplc';
+import init, { run_pseudolang, get_version } from '../assets/fplc';
 
 let wasmInitialized = false;
 
@@ -23,4 +23,11 @@ export async function executePseudoLang(code: string, debug: boolean = false): P
     }
     return "An unknown error occurred while executing the code";
   }
+}
+
+export async function getPseudoLangVersion(): Promise<string> {
+  if (!wasmInitialized) {
+    await initWasm();
+  }
+  return get_version();
 }
