@@ -1,13 +1,15 @@
 # PseudoLang Web Editor
-Companion frontend to [PseudoLang-RunServer](https://github.com/PseudoLang-Software-Foundation/PseudoLang-RunServer)
+
+A web interpreter for [Pseudolang](https://github.com/PseudoLang-Software-Foundation/Pseudolang)
 
 ## Hosting
-*To run programs within the Web Editor, you must have access to a [PseudoLang-RunServer](https://github.com/PseudoLang-Software-Foundation/PseudoLang-RunServer).*
 
-**1. Add RunServer url to ``src/PseudoLang.tsx``**
-- Set up [PseudoLang-RunServer](https://github.com/PseudoLang-Software-Foundation/PseudoLang-RunServer) or aquire the URL of a running server
-- Replace LANGSERVER_URL with the URL to your RunServer
+1. Getting the necessary files
+
+   - Head to [Pseudolang releases](https://github.com/PseudoLang-Software-Foundation/Pseudolang/releases), and download `wasm-bindgen.zip`
+   - Place all the files from the zip into `src/assets/`
   
-**2. Run React App**
-- For development purposes you can run with ``npm i && npm run dev``
-- To build use ``npm i && npm run build``
+2. Run React App
+
+   - For development purposes you can run with ``npm i && npm run dev``
+   - To build use ``npm i && npm run build``

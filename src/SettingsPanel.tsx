@@ -3,55 +3,43 @@ import React, { useState } from "react";
 interface SettingsPanelProps {
   debugMode: boolean;
   darkMode: boolean;
-  runServerUrl: string;
   onDebugModeChange: (value: boolean) => void;
   onDarkModeChange: (value: boolean) => void;
-  onRunServerUrlChange: (value: string) => void;
 }
 
 const SettingsPanel: React.FC<SettingsPanelProps> = ({
   debugMode,
   darkMode,
-  runServerUrl,
   onDebugModeChange,
   onDarkModeChange,
-  onRunServerUrlChange,
 }) => {
   return (
-    <div className="settings-panel">
-      <label>
-        Debug Mode:&nbsp;
-        <input
-          type="checkbox"
-          checked={debugMode}
-          onChange={(e) => onDebugModeChange(e.target.checked)}
-        />
-      </label>
+    <div className={`p-4 space-y-4 rounded border ${
+      darkMode 
+        ? "bg-gray-800 text-gray-100 border-gray-700" 
+        : "bg-white text-gray-900 border-gray-300"
+    }`}>
+      <div className="space-y-3">
+        <label className="flex items-center space-x-2">
+          <span className={darkMode ? "text-gray-100" : "text-gray-900"}>Debug Mode</span>
+          <input
+            type="checkbox"
+            checked={debugMode}
+            onChange={(e) => onDebugModeChange(e.target.checked)}
+            className={`ml-2 ${darkMode ? "accent-blue-500" : ""}`}
+          />
+        </label>
 
-      <label>
-        &nbsp;|&nbsp;Dark Mode:&nbsp;
-        <input
-          type="checkbox"
-          checked={darkMode}
-          onChange={(e) => onDarkModeChange(e.target.checked)}
-        />
-      </label>
-
-      <label>
-        &nbsp;|&nbsp;Run Server URL:&nbsp;
-        <input
-          style={{
-            color: darkMode ? "white" : "black",
-            background: darkMode ? "black" : "white",
-            border: "1px solid",
-            borderColor: darkMode ? "white" : "black",
-            padding: "0.25rem",
-          }}
-          type="text"
-          value={runServerUrl}
-          onChange={(e) => onRunServerUrlChange(e.target.value)}
-        />
-      </label>
+        <label className="flex items-center space-x-2">
+          <span className={darkMode ? "text-gray-100" : "text-gray-900"}>Dark Mode</span>
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={(e) => onDarkModeChange(e.target.checked)}
+            className={`ml-2 ${darkMode ? "accent-blue-500" : ""}`}
+          />
+        </label>
+      </div>
     </div>
   );
 };
