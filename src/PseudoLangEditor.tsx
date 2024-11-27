@@ -17,7 +17,6 @@ const WebIDE = () => {
   const SETTINGS_STORAGE_KEY = "pseudolang-settings";
   const APP_VERSION = pkgJson.version;
 
-  // Load settings from localStorage
   const loadSettings = () => {
     const savedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
     if (savedSettings) {
@@ -36,12 +35,10 @@ const WebIDE = () => {
   const [isFullScreen, setIsFullScreen] = useState(true);
   const [isVerticalLayout, setIsVerticalLayout] = useState(false);
   
-  // Initialize settings from localStorage
   const initialSettings = loadSettings();
   const [debugMode, setDebugMode] = useState(initialSettings.debugMode);
   const [darkMode, setDarkMode] = useState(initialSettings.darkMode);
 
-  // Save settings when they change
   useEffect(() => {
     const settings = { debugMode, darkMode };
     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
@@ -51,7 +48,6 @@ const WebIDE = () => {
     localStorage.setItem(CODE_STORAGE_KEY, code);
   }, [code]);
 
-  // Initialize WASM on component mount
   useEffect(() => {
     initWasm().catch(console.error);
   }, []);
@@ -78,17 +74,16 @@ const WebIDE = () => {
   return (
     <div className={`${
       isFullScreen ? "fixed inset-0 z-50" : "relative"
-    } w-full h-full min-h-[600px] ${darkMode ? "dark bg-gray-900" : "bg-gray-100"}`}>
+    } w-full h-full min-h-[600px] ${darkMode ? "dark bg-zinc-900" : "bg-slate-50"}`}>
       <Card className={`h-full flex flex-col ${
         darkMode 
-          ? "bg-gray-900 border-gray-800 rounded-none" 
-          : "bg-white border-gray-300 shadow-md rounded-none"
+          ? "bg-zinc-900 border-zinc-800 rounded-none" 
+          : "bg-white border-slate-200 shadow-md rounded-none"
       }`}>
-        {/* Toolbar */}
         <div className={`flex items-center gap-2 p-2 border-b ${
           darkMode 
-            ? "border-gray-800 bg-gray-900" 
-            : "border-gray-300 bg-white shadow-sm"
+            ? "border-zinc-800 bg-zinc-900" 
+            : "border-slate-200 bg-white"
         }`}>
           <Button variant="outline" size="sm" onClick={runCode}>
             <Play className="w-4 h-4 mr-1" />
@@ -159,48 +154,45 @@ const WebIDE = () => {
           </Popover>
         </div>
 
-        {/* Editor and Output */}
         <div className={`flex flex-1 ${isVerticalLayout ? "flex-col" : "flex-row"} overflow-hidden ${
-          darkMode ? "" : "bg-gray-50"
+          darkMode ? "" : "bg-slate-50"
         }`}>
-          {/* Code Editor */}
           <div className={`${isVerticalLayout ? "h-1/2" : "w-1/2"} p-2 ${
-            darkMode ? "" : "bg-white border-r border-gray-200"
+            darkMode ? "" : "bg-white border-r border-slate-200"
           }`}>
             <Editor
               height="100%"
               defaultLanguage="cpp"
               value={code}
               onChange={(value) => setCode(value || '')}
-              theme={darkMode ? "vs-dark" : "light"}
+              theme={darkMode ? "vs-dark" : "vs"}
               options={{
                 minimap: { enabled: false },
-                fontSize: 14,
+                fontSize: 15,
                 lineNumbers: "on",
                 scrollBeyondLastLine: false,
                 wordWrap: "on",
               }}
             />
           </div>
-          {/* Output Console */}
           <div className={`${isVerticalLayout ? "h-1/2" : "w-1/2"} p-2 ${
-            darkMode ? "bg-gray-900" : "bg-gray-50"
+            darkMode ? "bg-zinc-900" : "bg-slate-50"
           }`}>
             <div className={`h-full flex flex-col border rounded-md overflow-hidden ${
               darkMode 
-                ? "bg-gray-800 text-gray-100 border-gray-700" 
-                : "bg-white text-gray-900 border-gray-300 shadow-md"
+                ? "bg-zinc-800 text-zinc-100 border-zinc-700" 
+                : "bg-white text-slate-900 border-slate-200 shadow-sm"
             }`}>
-              {/* Output Title Bar */}
               <div className={`px-4 py-2 font-medium border-b ${
                 darkMode 
-                  ? "bg-gray-700 border-gray-600" 
-                  : "bg-gray-50 border-gray-200"
+                  ? "bg-zinc-700 border-zinc-600 text-zinc-100" 
+                  : "bg-slate-100 border-slate-200 text-slate-700"
               }`}>
                 Program Output
               </div>
-              {/* Output Content */}
-              <div className="p-4 font-mono text-sm overflow-auto whitespace-pre flex-1">
+              <div className={`p-4 font-mono text-sm overflow-auto whitespace-pre flex-1 ${
+                darkMode ? "text-zinc-200" : "text-slate-800"
+              }`}>
                 {output || "Output will appear here..."}
               </div>
             </div>
