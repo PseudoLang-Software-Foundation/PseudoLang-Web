@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import pkgJson from '../package.json';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Split, Maximize2, Minimize2, Info, BookOpen } from "lucide-react";
+import { Play, Split, Info, BookOpen } from "lucide-react";
 import SettingsPanel from "./SettingsPanel";
 import {
   Popover,
@@ -32,7 +32,7 @@ const WebIDE = () => {
     return localStorage.getItem(CODE_STORAGE_KEY) || 'DISPLAY("Hello, World!")';
   });
   const [output, setOutput] = useState("");
-  const [isFullScreen, setIsFullScreen] = useState(true);
+  const [isFullScreen] = useState(true);
   const [isVerticalLayout, setIsVerticalLayout] = useState(false);
   
   const initialSettings = loadSettings();
