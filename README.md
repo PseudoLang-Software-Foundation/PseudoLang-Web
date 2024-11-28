@@ -7,7 +7,7 @@ A web interpreter for [Pseudolang](https://github.com/PseudoLang-Software-Founda
 1. Getting the necessary files
 
    - Head to [Pseudolang releases](https://github.com/PseudoLang-Software-Foundation/Pseudolang/releases), and download `wasm-bindgen.zip`
-   - Place all the files from the zip into `src/assets/`
+   - Place all the files from the zip into `./src/assets/wasm/`
   
 2. Run React App
 

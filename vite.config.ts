@@ -27,10 +27,13 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm}'],
+        navigateFallback: 'index.html',
+        navigateFallbackAllowlist: [/^(?!\/__).*/]
       }
     })
   ],
+  base: './',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

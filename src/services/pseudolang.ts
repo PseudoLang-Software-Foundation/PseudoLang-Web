@@ -1,4 +1,4 @@
-import init, { run_pseudolang, get_version } from '../assets/fplc';
+import init, { run_pseudolang, get_version } from '../assets/wasm/fplc.js';
 
 let wasmInitialized = false;
 
